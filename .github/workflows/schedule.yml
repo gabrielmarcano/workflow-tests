@@ -5,7 +5,7 @@ on:
         - cron: '40 18 * * *'
         - cron: '43 18 * * *'
     workflow_run:
-        workflows: [hello, another]
+        workflows: [hello, another test]
         types:
             - completed
         branches: [qa, staging, main]
