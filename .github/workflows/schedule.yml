@@ -1,0 +1,30 @@
+name: schedule
+
+on:
+    schedule:
+        - cron: '40 18 * * *'
+        - cron: '43 18 * * *'
+    workflow_run:
+        workflows: [hello]
+        types:
+            - completed
+        branches: [qa, staging, main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - name: Run tests
+              run: echo "After hello!"
+    daily:
+        if: github.event_name == 'schedule'
+        runs-on: ubuntu-latest
+        steps:
+            - name: 'first-cron'
+              if: github.event.schedule == '40 18 * * *'
+              run: echo "First cron!"
+
+            - name: 'second-cron'
+              if: github.event.schedule == '43 18 * * *'
+              run: echo "Second cron!"
