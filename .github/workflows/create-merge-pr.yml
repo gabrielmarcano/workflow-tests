@@ -1,0 +1,58 @@
+name: Run on PR closed & push to main
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+    paths:
+      - 'src/**'
+      - 'types/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: ${{ github.event_name	== 'workflow_dispatch' || github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: |
+          echo $RANDOM > update.txt
+
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "PR merge action"
+
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        
+      - name: Auto-merge pull request
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
+          
+      - name: Success feedback
+        if: steps.automerge.outputs.mergeResult == "merged"
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
+        
