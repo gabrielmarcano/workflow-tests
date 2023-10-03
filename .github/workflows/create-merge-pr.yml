@@ -38,6 +38,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         
       - name: Auto-merge pull request
+        id: automerge
         if: ${{ steps.cpr.outputs.pull-request-number }}
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
