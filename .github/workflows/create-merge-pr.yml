@@ -1,4 +1,4 @@
-name: PR closes then create merge new pr with updates
+name: Github process
 on:
   workflow_dispatch:
   pull_request:
@@ -49,6 +49,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push --set-upstream origin update
+          git push -f --set-upstream origin update
           gh pr create -B main -H update --title 'Merge update into main' --body 'Created by Github action'
           gh pr merge --merge --auto update
