@@ -46,7 +46,7 @@ jobs:
           PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
           
       - name: Success feedback
-        if: steps.automerge.outputs.mergeResult == "merged"
+        if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
         run: |
           echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
         
