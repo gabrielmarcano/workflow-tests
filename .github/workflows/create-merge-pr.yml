@@ -33,13 +33,6 @@ jobs:
         run: |
           echo $RANDOM > update.txt
 
-      - name: Commit files
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add .
-          git commit -m "PR merge action"
-
       - name: Create pull request
         id: cpr
         uses: peter-evans/create-pull-request@v5
