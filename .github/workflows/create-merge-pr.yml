@@ -33,22 +33,16 @@ jobs:
         run: |
           echo $RANDOM > update.txt
 
-      - name: Create pull request
-        id: cpr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: Auto-merge pull request
-        id: automerge
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        uses: "pascalgn/automerge-action@v0.15.6"
+      - name: Create pull request and merge to main
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git checkout -b update
+          git add .
+          git commit -m "Update package"
+          git push --set-upstream origin update
+          gh pr create -B main -H update --title 'Merge update into main' --body 'Created by Github action'
+          gh pr merge --merge --auto update
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST: ${{ steps.cpr.outputs.pull-request-number }}
-          
-      - name: Success feedback
-        if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
-        run: |
-          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
         
