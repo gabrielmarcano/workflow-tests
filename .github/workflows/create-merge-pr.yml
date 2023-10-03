@@ -36,6 +36,8 @@ jobs:
       - name: Create pull request
         id: cpr
         uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Auto-merge pull request
         id: automerge
