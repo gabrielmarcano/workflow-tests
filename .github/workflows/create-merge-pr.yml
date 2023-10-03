@@ -1,4 +1,4 @@
-name: Run on PR closed & push to main
+name: PR closes then create merge new pr with updates
 on:
   workflow_dispatch:
   pull_request:
