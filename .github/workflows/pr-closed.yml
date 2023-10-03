@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "Workflow worked!" > update.txt
+          echo $RANDOM > update.txt
 
       - name: Commit files
         run: |
