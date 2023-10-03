@@ -43,8 +43,6 @@ jobs:
           git commit -m "Update package"
         
       - name: Create pull request and merge to main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push origin update
           gh pr create -B main -H update --title 'Merge update into main' --body 'Created by Github action'
