@@ -1,11 +1,11 @@
-name: Cypress Feature Run
+name: branch name
 
 on:
     create:
     workflow_dispatch:
 
 env:
-    feature: $GITHUB_REF##/
+    feature: ${{ ${GITHUB_REF#refs/heads/} }}
 
 jobs:
     tests:
