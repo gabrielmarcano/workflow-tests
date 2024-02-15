@@ -12,4 +12,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: 'branch'
-            run: echo ${{ env.feature }}
+            env:
+                CYPRESS_GLEWEE_WEB: 'https://feature-${{ env.feature }}.glewee.io'
+            run: echo $CYPRESS_GLEWEE_WEB
