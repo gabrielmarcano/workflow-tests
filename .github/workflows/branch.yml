@@ -5,7 +5,7 @@ on:
     workflow_dispatch:
 
 env:
-    feature: ${{ ${GITHUB_REF#refs/heads/} }}
+    feature: $GITHUB_REF_NAME
 
 jobs:
     tests:
