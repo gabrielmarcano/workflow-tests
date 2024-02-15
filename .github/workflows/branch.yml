@@ -14,7 +14,7 @@ jobs:
           - name: 'branch'
             env:
                 CYPRESS_GLEWEE_WEB: 'https://feature-${{ github.ref_name }}.glewee.io'
-            run: \
+            run: |
                 echo $CYPRESS_GLEWEE_WEB \
                 echo $FEATURE
                 echo ${{ env.feature }} 
