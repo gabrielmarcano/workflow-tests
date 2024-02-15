@@ -1,0 +1,15 @@
+name: Cypress Feature Run
+
+on:
+    create:
+    workflow_dispatch:
+
+env:
+    feature: $GITHUB_REF
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+          - name: 'branch'
+            run: echo ${{ env.feature }}
